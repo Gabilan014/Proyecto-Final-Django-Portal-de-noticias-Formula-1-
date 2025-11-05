@@ -6,7 +6,7 @@ import os
 
 API_HEADERS_F1 = {
     "x-rapidapi-host": "f1-motorsport-data.p.rapidapi.com",
-    "x-rapidapi-key": "446877f9b9mshc55f822d3e625d8p1338c6jsnb35fb4773af3"
+    "x-rapidapi-key": os.getenv("RAPIDAPI_KEY", "446877f9b9mshc55f822d3e625d8p1338c6jsnb35fb4773af3")
 }
 
 API_URL_ATHLETE = "https://f1-motorsport-data.p.rapidapi.com/athlete-info"
@@ -33,7 +33,7 @@ API_URL_NEWS = "https://f1-motorsport-data.p.rapidapi.com/news"
 
 API_HEADERS_NEWS = {
     "x-rapidapi-host": "f1-motorsport-data.p.rapidapi.com",
-    "x-rapidapi-key": "446877f9b9mshc55f822d3e625d8p1338c6jsnb35fb4773af3"
+    "x-rapidapi-key": os.getenv("RAPIDAPI_KEY", "446877f9b9mshc55f822d3e625d8p1338c6jsnb35fb4773af3")
 }
 
 def _normalize_local_item(it):
