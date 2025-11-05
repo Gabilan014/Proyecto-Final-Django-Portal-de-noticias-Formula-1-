@@ -11,7 +11,37 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import os, dj_database_url
+import os
+
+# Definición estándar de BASE_DIR (añadilo antes de usarlo)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
+
+if dj_database_url:
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.getenv("DATABASE_URL", f"sqlite:///{str(BASE_DIR / 'db.sqlite3')}"),
+            conn_max_age=600,
+        )
+    }
+else:
+    # Fallback a sqlite usando BASE_DIR
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": str(BASE_DIR / "db.sqlite3"),
+        }
+    }
+
+try:
+    import whitenoise  # sólo para comprobar disponibilidad
+    WHITENOISE_AVAILABLE = True
+except Exception:
+    WHITENOISE_AVAILABLE = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +71,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # añadí WhiteNoise solo si está instalado
+    *(["whitenoise.middleware.WhiteNoiseMiddleware"] if WHITENOISE_AVAILABLE else []),
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,17 +100,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'miniportal.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-    )
-}
 
 
 # Password validation
