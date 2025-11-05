@@ -73,3 +73,6 @@ Problemas comunes
 - Si PowerShell bloquea la activación: ejecutar `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force`.
 - Si falta un paquete: `python -m pip install <paquete>`.
 
+Autor 
+---
+Claudio Daniel Gabilan
