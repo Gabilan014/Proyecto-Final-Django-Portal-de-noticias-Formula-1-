@@ -1,0 +1,14 @@
+{% extends "noticias/base.html" %}
+{% block title %}{{ noticia.titulo }} - MiniPortal{% endblock %}
+{% block content %}
+  <article class="card">
+    <div class="card-body">
+      <h1 class="card-title">{{ noticia.titulo }}</h1>
+      <p class="text-muted">{{ noticia.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+      <p class="card-text">{{ noticia.cuerpo|linebreaks }}</p>
+      <a class="btn btn-secondary" href="/">Volver</a>
+      <!-- Enlaza a la vista genérica: el usuario podrá ingresar driver_id -->
+      <a class="btn btn-primary" href="{% url 'piloto_search' %}">Ver piloto</a>
+    </div>
+  </article>
+{% endblock %}

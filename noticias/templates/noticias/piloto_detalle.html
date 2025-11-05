@@ -1,0 +1,48 @@
+{% extends "noticias/base.html" %}
+
+{% block title %}Detalle del piloto{% endblock %}
+
+{% block content %}
+<h1>Detalle del piloto</h1>
+
+
+<form class="mb-3" method="get" action="{% url 'piloto_search' %}">
+  <div class="input-group">
+    <input type="text" name="driver_id" class="form-control" placeholder="Ingresá driver_id (ej: 123)" value="{{ driver_id_query|default:'' }}">
+    <button class="btn btn-primary" type="submit">Buscar</button>
+  </div>
+</form>
+
+{% if driver %}
+<p><strong>Nombre:</strong> {{ driver.fullName }}</p>
+<p><strong>Fecha de nacimiento:</strong> {{ driver.dateOfBirth }}</p>
+
+<h2>Resultados de la temporada</h2>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Gran Premio</th>
+            <th>Puesto</th>
+            <th>Puntos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for race in results %}
+        <tr>
+            <td>{{ race.date }}</td>
+            <td>{{ race.race }}</td>
+            <td>{{ race.place }}</td>
+            <td>{{ race.points }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No hay resultados</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+  <p>No se han cargado datos del piloto. Ingresá un driver_id arriba y presioná Buscar.</p>
+{% endif %}
+{% endblock %}

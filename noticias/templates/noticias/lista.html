@@ -1,0 +1,44 @@
+{% extends "noticias/base.html" %}
+
+{% block content %}
+<h2 class="mb-4 fw-bold text-center">📰 Noticias de Fórmula 1</h2>
+
+{% if noticias %}
+  <div class="row g-4">
+    {% for n in noticias %}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card noticia-card h-100 border-0 shadow-sm">
+
+        {% if n.image %}
+          <div class="ratio ratio-16x9">
+            <img src="{{ n.image }}" class="card-img-top img-cover" alt="Noticia F1">
+          </div>
+        {% else %}
+          <div class="ratio ratio-16x9">
+            <img src="https://via.placeholder.com/600x350?text=F1+News" class="card-img-top img-cover" alt="Sin imagen">
+          </div>
+        {% endif %}
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold text-dark">{{ n.title }}</h5>
+
+          <p class="card-text text-muted flex-grow-1">
+            {{ n.excerpt|default:"Sin descripción..."|truncatewords:25 }}
+          </p>
+
+          {% if n.url %}
+            <a href="{{ n.url }}" target="_blank" class="btn btn-ferrari w-100 mt-2" rel="noopener">
+              Leer noticia completa →
+            </a>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-center text-muted mt-5">No hay noticias disponibles.</p>
+{% endif %}
+{% endblock %}
+
